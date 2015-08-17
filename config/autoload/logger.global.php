@@ -5,18 +5,11 @@ return array(
         'Log\App' => array(
             'writers' => array(
                 array(
-                    'syslog' => [
-                        'name' => 'Zend\Log\Writer\Syslog',
-                        'options' => [
-                            'priority' => \Zend\Log\Logger::WARN,
-                            'writer' => [
-                                'name' => 'stream',
-                                'options' => [
-                                    'facility' => LOG_LOCAL4,
-                                ],
-                            ],
-                        ],
-                    ],
+                    'name' => 'stream',
+                    'priority' => 1000,
+                    'options' => array(
+                        'stream' => 'data/logs/app.log',
+                    ),
                 ),
             ),
         ),

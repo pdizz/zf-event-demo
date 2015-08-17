@@ -1,33 +1,23 @@
 <?php
 
-namespace ErrorHandler;
+namespace Authentication;
 
 use Zend\Mvc\MvcEvent;
+use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\ApiProblemResponse;
+use ZF\MvcAuth\MvcAuthEvent;
 
 class Module
 {
-    /**
-     * @var \Zend\Log\Logger
-     */
-    protected $logger;
-
     public function onBootstrap(MvcEvent $mvcEvent)
     {
-        $eventManager = $mvcEvent->getApplication()->getEventManager();
-        $this->logger = $mvcEvent->getApplication()->getServiceManager()->get('Log\App');
+        $shared   = $mvcEvent->getApplication()->getEventManager()->getSharedManager();
 
-        $eventManager->attach(
-            MvcEvent::EVENT_FINISH,
-            function(MvcEvent $event) {
-                $response = $event->getParam('response');
-
-                if (!$response instanceof ApiProblemResponse) {
-                    return;
-                }
-
-                $this->logger->log(1, $response);
-            }
+        $shared->attach(
+            'Zend\Mvc\Application',
+            MvcAuthEvent::EVENT_AUTHENTICATION,
+            new CoinFlipListener(),
+            1000
         );
     }
 
@@ -49,6 +39,7 @@ class Module
             return;
         }
 
-        $this->logger->log(1, $response);
+        $response = new ApiProblemResponse(new ApiProblem(500, 'An unexpected exception occurred.'));
+        $event->setResponse($response);
     }
 }

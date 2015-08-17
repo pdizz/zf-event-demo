@@ -14,7 +14,9 @@ class ThingResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        return new ApiProblem(405, 'The POST method has not been defined');
+        $thing = new ThingEntity();
+        $thing->setId(mt_rand(1, 100));
+        return $thing;
     }
 
     /**
