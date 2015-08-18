@@ -1,10 +1,10 @@
 <?php
-namespace Thing\V1\Rest\Thing;
+namespace Thing\V1\Rest\OtherThing;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class ThingResource extends AbstractResourceListener
+class OtherThingResource extends AbstractResourceListener
 {
     /**
      * Create a resource
@@ -14,9 +14,7 @@ class ThingResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        $thing = new ThingEntity();
-        $thing->setId(mt_rand(1, 100));
-        return $thing;
+        return new ApiProblem(405, 'The POST method has not been defined');
     }
 
     /**
@@ -49,10 +47,9 @@ class ThingResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        $thing = new ThingEntity();
-        $thing->setId($id);
-
-        return $thing;
+        $otherThing = new OtherThingEntity();
+        $otherThing->setId($id);
+        return $otherThing;
     }
 
     /**
