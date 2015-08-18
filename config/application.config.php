@@ -24,7 +24,8 @@ return array(
         'ZF\\Versioning',
         'Thing',
         'ErrorHandler',
-        'Authentication'
+        'Authentication',
+//        'EventMapper'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

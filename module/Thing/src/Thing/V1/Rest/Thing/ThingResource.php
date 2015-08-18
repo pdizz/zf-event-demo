@@ -63,7 +63,11 @@ class ThingResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
+        $thing1 = new ThingEntity();
+        $thing1->setId(1);
+        $thing2 = new ThingEntity();
+        $thing2->setId(2);
+        return [$thing1, $thing2];
     }
 
     /**
