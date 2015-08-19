@@ -7,26 +7,21 @@ use ZF\ApiProblem\ApiProblemResponse;
 
 class Module
 {
-    /**
-     * @var \Zend\Log\Logger
-     */
-    protected $logger;
-
     public function onBootstrap(MvcEvent $mvcEvent)
     {
         $eventManager = $mvcEvent->getApplication()->getEventManager();
-        $this->logger = $mvcEvent->getApplication()->getServiceManager()->get('Log\App');
+        $logger = $mvcEvent->getApplication()->getServiceManager()->get('Log\App');
 
         $eventManager->attach(
             MvcEvent::EVENT_FINISH,
-            function(MvcEvent $event) {
+            function(MvcEvent $event) use ($logger) {
                 $response = $event->getParam('response');
 
                 if (!$response instanceof ApiProblemResponse) {
                     return;
                 }
 
-                $this->logger->log(1, $response);
+                $logger->log(1, $response);
             }
         );
     }
@@ -40,15 +35,5 @@ class Module
                 ),
             ),
         );
-    }
-
-    public function onException(MvcEvent $event) {
-        $response = $event->getParam('response');
-
-        if (!$response instanceof ApiProblemResponse) {
-            return;
-        }
-
-        $this->logger->log(1, $response);
     }
 }
