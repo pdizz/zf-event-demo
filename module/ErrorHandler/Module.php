@@ -17,11 +17,9 @@ class Module
             function(MvcEvent $event) use ($logger) {
                 $response = $event->getParam('response');
 
-                if (!$response instanceof ApiProblemResponse) {
-                    return;
+                if ($response instanceof ApiProblemResponse) {
+                    $logger->log(1, $response);
                 }
-
-                $logger->log(1, $response);
             }
         );
     }
